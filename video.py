@@ -58,7 +58,6 @@ def activeOLEDmain():
 
     clip = av.open(video_path)
 
-    global loop
 
     for frame in clip.decode(video=0):
         if getGreen() == False:

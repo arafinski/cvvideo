@@ -9,18 +9,18 @@ previewButton = getGreen()
 nextButton = getBlue()
 lastButton = getBlack()
 
-loop = False
+oledPreviewTriggered = False
 
 
 def switchTrue():
-    global loop
-    if loop == False:
-        loop = True
+    global oledPreviewTriggered
+    if oledPreviewTriggered == False:
+        oledPreviewTriggered = True
 
 
 
 def checkInput():
-    global loop
+    global oledPreviewTriggered
     switch = getSwitch()
     previewButton = getGreen()
     nextButton = getBlack()
@@ -31,36 +31,46 @@ def checkInput():
         # print('switch false')
         # time.sleep(0.2)
     else:
-        loop = False
+        oledPreviewTriggered = False
 
 oLEDActive = False
 allowedToTriggerNextVideo = False
+mainOLEDRunning = False
+oledMainActive = False
 
-def checkLoopStatus():
-    global loop
+def checkoledPreviewTriggeredStatus():
+    global oledPreviewTriggered
     global oLEDActive
     global allowedToTriggerNextVideo
+    global mainOLEDRunning
+    global oledMainActive
     getKnob(4)
     getAdc(0)
-    if loop == True:
+    if oledPreviewTriggered == True:
         if oLEDActive == False:
+            mainOLEDRunning = False
             activeOLEDmain()
             oLEDActive = True
             allowedToTriggerNextVideo = True
+            oledMainActive = False
     else:
         oLEDActive = False
+        if oledMainActive == False:
+            mainOLEDRunning = True
+            print('_______running MAINOLED')
+            runMainOLED()
+            oledMainActive = True
+
         if allowedToTriggerNextVideo == True:
             playVideo(getLastVideo())
             allowedToTriggerNextVideo = False
 
 
-
-
-while True:
-     # button()
-     checkInput()
-     checkLoopStatus()
-
-
-# while loop == True:
-#     print('switching on')
+if __name__ == "__main__":
+    while True:
+        try:
+            checkInput()
+            checkoledPreviewTriggeredStatus()
+        except (KeyboardInterrupt, SystemExit):
+            killVideo()
+            raise

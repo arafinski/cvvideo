@@ -86,6 +86,10 @@ def getKnob (channel) :
 
 lastSpeed = 0
 
+def killVideo():
+    os.system('killall omxplayer.bin')
+    sys.exit()
+
 def getAdc (channel):
     global knob
     #check valid channel

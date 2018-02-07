@@ -22,6 +22,11 @@ import os.path
 from demo_opts import get_device
 import RPi.GPIO as GPIO
 from button import *
+from run import *
+
+import math
+import datetime
+from luma.core.render import canvas
 #
 #
 # GPIO.setmode(GPIO.BCM)
@@ -48,6 +53,21 @@ lastVideo = ""
 def getLastVideo():
     return lastVideo
 
+def posn(angle, arm_length):
+    dx = int(math.cos(math.radians(angle)) * arm_length)
+    dy = int(math.sin(math.radians(angle)) * arm_length)
+    return (dx, dy)
+
+def runMainOLED():
+    global mainOLEDRunning
+
+    with canvas(device, dither=True) as draw:
+    		draw.rectangle((10, 10, 30, 30), outline="white", fill="red")
+    		#draw.rectangle(device.bounding_box, outline="white", fill="black")
+    		draw.text((3, 3), "12345678901234567890", fill="white")
+    # mainOLEDRunning ==
+
+
 def activeOLEDmain():
     global lastVideo
 
@@ -58,7 +78,6 @@ def activeOLEDmain():
 
     clip = av.open(video_path)
 
-    global loop
 
     for frame in clip.decode(video=0):
         if getGreen() == False:
