@@ -1,7 +1,7 @@
 import time
 from button import *
-from oledVideo import *
 from hdmiVideo import *
+from oledVideo import *
 from video import *
 
 switch = getSwitch()

@@ -58,12 +58,20 @@ def posn(angle, arm_length):
     dy = int(math.sin(math.radians(angle)) * arm_length)
     return (dx, dy)
 
+def drawToOLED(value):
+    with canvas(device, dither=True) as draw:
+    		# draw.rectangle((10, 10, 30, 30), outline="white", fill="red")
+    		#draw.rectangle(device.bounding_box, outline="white", fill="black")
+            # draw.textsize(str(value))
+    		draw.text((10, 10), str(value), fill="white")
+
 def runMainOLED():
     global mainOLEDRunning
 
     with canvas(device, dither=True) as draw:
     		draw.rectangle((10, 10, 30, 30), outline="white", fill="red")
     		#draw.rectangle(device.bounding_box, outline="white", fill="black")
+
     		draw.text((3, 3), "12345678901234567890", fill="white")
     # mainOLEDRunning ==
 
