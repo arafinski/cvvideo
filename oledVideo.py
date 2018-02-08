@@ -27,6 +27,7 @@ from run import *
 import math
 import datetime
 from luma.core.render import canvas
+from PIL import ImageFont
 #
 #
 # GPIO.setmode(GPIO.BCM)
@@ -58,12 +59,24 @@ def posn(angle, arm_length):
     dy = int(math.sin(math.radians(angle)) * arm_length)
     return (dx, dy)
 
+def make_font(name, size):
+    font_path = os.path.abspath(os.path.join(
+        os.path.dirname(__file__), 'fonts', name))
+    return ImageFont.truetype(font_path, size)
+
+
+
 def drawToOLED(value):
+    if (isinstance(value, basestring) == False):
+        value = "%.2f" % value
+    # DS-DIGI
+    font = make_font("miscfs_.ttf", device.height - 8)
+    # font = make_font("fontawesome-webfont.ttf", device.height - 10)
     with canvas(device, dither=True) as draw:
     		# draw.rectangle((10, 10, 30, 30), outline="white", fill="red")
     		#draw.rectangle(device.bounding_box, outline="white", fill="black")
             # draw.textsize(str(value))
-    		draw.text((10, 10), str(value), fill="white")
+    		draw.text((13, 3), str(value), fill="white", font=font)
 
 def runMainOLED():
     global mainOLEDRunning

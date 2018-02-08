@@ -6,10 +6,12 @@ import time
 import random
 import datetime
 
+
 from omxplayer.player import OMXPlayer
 from pathlib import Path
 from time import sleep
-from oledVideo import *
+from oledVideo import drawToOLED
+
 
 import RPi.GPIO as GPIO
 
@@ -137,7 +139,7 @@ def getAdc (channel):
                 if (speed < (lastSpeed + (iTolerance *(lastSpeed/100)))) and (speed > (lastSpeed - (iTolerance *(lastSpeed/100)))):
                     print(speed)
                     print(lastSpeed)
-                    drawToOLED(speed)
+                    drawToOLED(lastSpeed)
                     player.set_rate(speed)
                 lastSpeed = speed
 
